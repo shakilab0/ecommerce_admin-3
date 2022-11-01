@@ -32,7 +32,6 @@ void main()async {
         builder: EasyLoading.init(),
         initialRoute: LauncherPage.routeName,
         routes: {
-
           AddProductPage.routeName:(context)=>const AddProductPage(),
           CategoryPage.routeName:(context)=>const CategoryPage(),
           DashboardPage.routeName:(context)=>const DashboardPage(),
