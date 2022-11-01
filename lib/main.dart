@@ -10,17 +10,22 @@ import 'package:ecom_admin_3/pages/report_page.dart';
 import 'package:ecom_admin_3/pages/settings_page.dart';
 import 'package:ecom_admin_3/pages/userlist_page.dart';
 import 'package:ecom_admin_3/pages/view_product_page.dart';
+import 'package:ecom_admin_3/providers/product_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context)=>ProductProvider()),
+    ],
+     child: const MyApp())
+  );
 }
-
-
   class MyApp extends StatelessWidget {
     const MyApp({Key? key}) : super(key: key);
 
