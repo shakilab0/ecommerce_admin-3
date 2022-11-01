@@ -27,7 +27,7 @@ class CategoryPage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text("Category page"),
+        title: const Text("Category page  "),
       ),
 
     );
