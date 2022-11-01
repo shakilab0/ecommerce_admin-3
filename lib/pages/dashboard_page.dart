@@ -1,4 +1,6 @@
 import 'package:ecom_admin_3/auth/auth_service.dart';
+import 'package:ecom_admin_3/customwidgets/dashboard_item_view.dart';
+import 'package:ecom_admin_3/models/dashboard_model.dart';
 import 'package:ecom_admin_3/pages/launcher_page.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,13 @@ class DashboardPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: Text("DashboardPage"),),
+      body: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemCount: dashboardModelList.length,
+          itemBuilder: (context,index)=>DashboardItemView(model: dashboardModelList[index]),
+      ),
     );
   }
 }
