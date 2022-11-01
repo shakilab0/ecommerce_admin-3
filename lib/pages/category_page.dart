@@ -19,7 +19,8 @@ class CategoryPage extends StatelessWidget {
               title: "Category",
               positiveButton: "Add",
               onSubmit: (value){
-                Provider.of<ProductProvider>(context,listen: false).addCategory(value);
+                Provider.of<ProductProvider>(context,listen: false)
+                    .addCategory(value);
               }
           );
         },
