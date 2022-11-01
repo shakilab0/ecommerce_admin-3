@@ -1,4 +1,4 @@
-const String collectionCategory='Category';
+const String collectionCategory='Categories';
 
 const String categoryFieldId='categoryId';
 const String categoryFieldName='categoryName';
