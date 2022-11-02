@@ -1,4 +1,6 @@
- const String collectionProduct='Products';
+ import 'package:ecom_admin_3/models/category_model.dart';
+
+const String collectionProduct='Products';
 
  const String productFieldId='productId';
  const String productFieldName='productName';
@@ -18,7 +20,7 @@ class ProductModel{
 
   String? productId;
   String productName;
-  String category;
+  CategoryModel category;
   String? shortDescription;
   String? longDescription;
   num salePrice;
@@ -48,7 +50,7 @@ class ProductModel{
     return <String,dynamic>{
       productFieldId:productId,
       productFieldName:productId,
-      productFieldCategory:category,
+      productFieldCategory:category.toMap(),
       productFieldShortDescription:shortDescription,
       productFieldLongDescription:longDescription,
       productFieldSalePrice:salePrice,
@@ -65,7 +67,7 @@ class ProductModel{
   factory ProductModel.fromMap(Map<String,dynamic>map)=>ProductModel(
       productId: map[productFieldId],
       productName: map[productFieldName],
-      category:  map[productFieldCategory],
+      category:CategoryModel.fromMap( map[productFieldCategory]),
       shortDescription:map[productFieldShortDescription],
       longDescription:map[productFieldLongDescription],
       salePrice:  map[productFieldSalePrice],

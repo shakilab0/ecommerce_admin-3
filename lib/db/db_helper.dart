@@ -16,4 +16,7 @@ class DbHelper{
     return catDoc.set(categoryModel.toMap());
   }
 
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllCategory()=>
+      _db.collection(collectionCategory).snapshots();
+
 }

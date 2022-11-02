@@ -45,6 +45,7 @@ dependencies:
   image_picker:
   cached_network_image:
   flutter_easyloading:
+  connectivity_plus:
 
 dev_dependencies:
   flutter_test:
