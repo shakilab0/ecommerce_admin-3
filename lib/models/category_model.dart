@@ -30,4 +30,16 @@ class CategoryModel{
     categoryName: map[categoryFieldName],
     productCount: map[categoryFieldProductCount],
   );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CategoryModel &&
+          runtimeType == other.runtimeType &&
+          categoryId == other.categoryId;
+
+  @override
+  int get hashCode => categoryId.hashCode;
+
+
 }

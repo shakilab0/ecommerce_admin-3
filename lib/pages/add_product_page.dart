@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecom_admin_3/models/category_model.dart';
+import 'package:ecom_admin_3/models/date_model.dart';
 import 'package:ecom_admin_3/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../models/product_model.dart';
+import '../models/purchase_model.dart';
 import '../utils/helper_function.dart';
 
 class AddProductPage extends StatefulWidget {
@@ -51,6 +55,13 @@ class _AddProductPageState extends State<AddProductPage> {
   DateTime?purchaseDate;
   ImageSource _imageSource=ImageSource.gallery;
 
+  late ProductProvider _productProvider;
+
+@override
+  void didChangeDependencies() {
+    _productProvider= Provider.of<ProductProvider>(context,listen:false);
+    super.didChangeDependencies();
+  }
 
   late StreamSubscription<ConnectivityResult>subcription;
   bool _isConnected=true;
@@ -339,13 +350,89 @@ class _AddProductPageState extends State<AddProductPage> {
   void _saveProduct()async {
     if(thumbnail==null){
       showMsg(context, "please select image");
+      return;
     }
     if(purchaseDate==null){
       showMsg(context, "please select date");
+      return;
     }
     if(_formKey.currentState!.validate()){
       EasyLoading.show(status: "please Wait");
+
+
+
+      try{
+        final imageModel=await _productProvider.upLoadImage(thumbnail!);
+        final productModel = ProductModel(
+          productName:_nameController.text,
+          shortDescription:_shortDisController.text.isEmpty?null:_shortDisController.text,
+          longDescription:_longDisController.text.isEmpty?null:_shortDisController.text,
+          salePrice:num.parse(_salepriceController.text),
+          productDiscount: num.parse(_discountController.text),
+          stock: num.parse(_quantityController.text),
+          category: categoryModel!,
+          thumbnailImageModel: imageModel,
+        );
+        final purchaseModel=PurchaseModel(
+          purchasePrice:num.parse(_purchaseController.text),
+          purchaseQuantity:num.parse(_quantityController.text),
+          dateModel:DateModel(
+            timestamp: Timestamp.fromDate(purchaseDate!),
+            day: purchaseDate!.day,
+            month: purchaseDate!.month,
+            year: purchaseDate!.year,
+          ),
+        );
+        await _productProvider.addNewproduct(productModel,purchaseModel);
+        EasyLoading.dismiss();
+        if(mounted){
+          showMsg(context, "Saved Sucess");
+        }
+        _resetField();
+
+
+      }catch(error){
+        EasyLoading.dismiss();
+        showMsg(context, "Could not save");
+
+        throw error;
+      }
+
+      // final productModel = ProductModel(
+      //   productName:_nameController.text,
+      //   shortDescription:_shortDisController.text.isEmpty?null:_shortDisController.text,
+      //   longDescription:_longDisController.text.isEmpty?null:_shortDisController.text,
+      //   salePrice:num.parse(_salepriceController.text),
+      //   productDiscount: num.parse(_discountController.text),
+      //   stock: num.parse(_quantityController.text),
+      //   category: categoryModel!,
+      //   thumbnailImageModel: '',
+      // );
+      // final purchaseModel=PurchaseModel(
+      //   purchasePrice:num.parse(_purchaseController.text),
+      //   purchaseQuantity:num.parse(_quantityController.text),
+      //   dateModel:DateModel(
+      //     timestamp: Timestamp.fromDate(DateTime.now()),
+      //     day: DateTime.now().day,
+      //     month: DateTime.now().month,
+      //     year: DateTime.now().year,
+      //   ),
+      // );
     }
+  }
+
+  void _resetField(){
+    _nameController.clear();
+    _shortDisController.clear();
+    _longDisController.clear();
+    _discountController.clear();
+    _quantityController.clear();
+    _salepriceController.clear();
+    _purchaseController.clear();
+    categoryModel=null;
+    purchaseDate=null;
+    thumbnail=null;
+
   }
 
 
