@@ -14,6 +14,8 @@ class ProductProvider extends ChangeNotifier{
   List<CategoryModel>categoryList=[];
   List<ProductModel>productList=[];
 
+  List<PurchaseModel> purchaseList=[];
+
   Future<void>addCategory(String category){
     final categoryModel=CategoryModel(categoryName: category);
     return DbHelper.addCategory(categoryModel);
@@ -28,6 +30,45 @@ class ProductProvider extends ChangeNotifier{
       notifyListeners();
     });
   }
+
+  getAllProducts(){
+    DbHelper.getAllProducts().listen((snapshot) {
+      productList=List.generate(snapshot.docs.length, (index) =>
+          ProductModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+  getAllPurchase(){
+    DbHelper.getAllPurchase().listen((snapshot) {
+      purchaseList=List.generate(snapshot.docs.length, (index) =>
+          PurchaseModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+
+  getAllProductsByCategory(String categoryName){
+    DbHelper.getAllProductsByCategory(categoryName).listen((snapshot) {
+      productList=List.generate(snapshot.docs.length, (index) =>
+          ProductModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+  List<PurchaseModel> getPurchasesByProductId(String productId){
+
+    return purchaseList.where((element) => element.productId==productId).toList();
+
+
+  }
+
+  List<CategoryModel>getCategoriesForFiltering(){
+    return <CategoryModel>[CategoryModel(categoryName: "All"),
+      ...categoryList,
+    ];
+  }
+
 
   Future<ImageModel>upLoadImage(String path)async{
     final imageName='pro_${DateTime.now().millisecondsSinceEpoch}';
@@ -44,5 +85,10 @@ class ProductProvider extends ChangeNotifier{
  Future<void>addNewproduct(ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel,purchaseModel);
  }
+
+  Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
+    return DbHelper.repurchase(purchaseModel,productModel);
+
+  }
 
 }

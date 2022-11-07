@@ -40,4 +40,38 @@ class DbHelper{
   static Stream<QuerySnapshot<Map<String,dynamic>>>getAllCategory()=>
       _db.collection(collectionCategory).snapshots();
 
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllProducts()=>
+      _db.collection(collectionProduct).snapshots();
+
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllPurchase()=>
+      _db.collection(collectionPurchase).snapshots();
+
+  static Future<QuerySnapshot<Map<String,dynamic>>>getAllPurchasesByProductId(String productId)=>
+      _db.collection(collectionPurchase)
+          .where(purchaseFieldProductId,isEqualTo: productId)
+          .get();
+
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllProductsByCategory(String categoryName)=>
+      _db.collection(collectionProduct)
+          .where("$productFieldCategory.$categoryFieldName",isEqualTo: categoryName)
+          .snapshots();
+
+
+  static Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) async{
+    final wb=_db.batch();
+    final doc=_db.collection(collectionPurchase).doc();
+    purchaseModel.purchaseId=doc.id;
+    wb.set(doc, purchaseModel.toMap());
+    final productDoc=_db.collection(collectionProduct).doc(productModel.productId);
+    wb.update(productDoc, {productFieldStock:(productModel.stock+ purchaseModel.purchaseQuantity)});
+    final snapshot=await _db.collection(collectionCategory).doc(productModel.category.categoryId).get();
+    final previousCount=snapshot.data()?[categoryFieldProductCount]??0;
+    final catDoc=_db.collection(collectionCategory).doc(productModel.category.categoryId);
+    wb.update(catDoc, {categoryFieldProductCount:(purchaseModel.purchaseQuantity+previousCount)});
+    return wb.commit();
+
+
+
+  }
+
 }

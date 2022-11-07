@@ -1,6 +1,6 @@
 import 'package:ecom_admin_3/models/date_model.dart';
 
-const String collectionPurchase='Products';
+const String collectionPurchase='Purchases';
 
 const String purchaseFieldId='purchaseId';
 const String purchaseFieldProductId='productId';
@@ -35,7 +35,7 @@ class PurchaseModel{
    };
  }
 
- factory PurchaseModel.fromMap(Map<String,dynamic>map)=>PurchaseModel(
+ factory PurchaseModel.fromMap(Map<String,dynamic> map)=>PurchaseModel(
    purchaseId:map[purchaseFieldId],
    productId:map[purchaseFieldProductId],
    purchaseQuantity: map[purchaseFieldQuantity],

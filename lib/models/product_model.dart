@@ -53,7 +53,7 @@ class ProductModel{
   Map<String,dynamic>toMap(){
     return <String,dynamic>{
       productFieldId:productId,
-      productFieldName:productId,
+      productFieldName:productName,
       productFieldCategory:category.toMap(),
       productFieldShortDescription:shortDescription,
       productFieldLongDescription:longDescription,
@@ -70,21 +70,21 @@ class ProductModel{
   }
 
   factory ProductModel.fromMap(Map<String,dynamic>map)=>ProductModel(
-      productId: map[productFieldId],
-      productName: map[productFieldName],
-      category:CategoryModel.fromMap( map[productFieldCategory]),
-      shortDescription:map[productFieldShortDescription],
-      longDescription:map[productFieldLongDescription],
-      salePrice:  map[productFieldSalePrice],
-      stock:  map[productFieldStock],
-      avgRating:  map[productFieldAvgRating],
-      productDiscount:map[productFieldDiscount],
-      thumbnailImageModel: map[productFieldThumbnail],
-      additionalImageModels: map[productFieldImages]==null ? null:
-          List.generate((map[productFieldImages]as List).length, (index) =>
-          ImageModel.fromMap((map[productFieldImages]as List)[index])),
-      available: map[productFieldAvailable],
-      featured: map[productFieldFeatured],
+    productId: map[productFieldId],
+    productName: map[productFieldName],
+    category: CategoryModel.fromMap(map[productFieldCategory]),
+    shortDescription:map[productFieldShortDescription],
+    longDescription:map[productFieldLongDescription],
+    salePrice:  map[productFieldSalePrice],
+    stock:  map[productFieldStock],
+    avgRating:  map[productFieldAvgRating],
+    productDiscount:map[productFieldDiscount],
+    thumbnailImageModel: ImageModel.fromMap(map[productFieldThumbnail]),
+    additionalImageModels: map[productFieldImages] == null? null :
+    List.generate((map[productFieldImages] as List).length, (index) =>
+        ImageModel.fromMap((map[productFieldImages] as List)[index])),
+    available: map[productFieldAvailable],
+    featured: map[productFieldFeatured],
   );
 
 

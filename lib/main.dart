@@ -44,7 +44,7 @@ void main()async {
           LauncherPage.routeName:(context)=>const LauncherPage(),
           LoginPage.routeName:(context)=>const LoginPage(),
           OrderlistPage.routeName:(context)=>const OrderlistPage(),
-          ProductDetailsPage.routeName:(context)=>const ProductDetailsPage(),
+          ProductDetailsPage.routeName:(context)=> ProductDetailsPage(),
           ProductRepurchasePage.routeName:(context)=>const ProductRepurchasePage(),
           ReportPage.routeName:(context)=>const ReportPage(),
           SettingsPage.routeName:(context)=>const SettingsPage(),

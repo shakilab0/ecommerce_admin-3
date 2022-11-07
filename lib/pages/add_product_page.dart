@@ -65,6 +65,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   late StreamSubscription<ConnectivityResult>subcription;
   bool _isConnected=true;
+
   @override
   void initState() {
     isConnectedtoInternet().then((value){
@@ -160,9 +161,6 @@ class _AddProductPageState extends State<AddProductPage> {
                   filled: true,
                 ) ,
                 validator: (value){
-                  if(value==null || value.isEmpty){
-                    return "Please fill up this field";
-                  }
                   return null;
                 },
               ),
@@ -179,9 +177,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   filled: true,
                 ) ,
                 validator: (value){
-                  if(value==null || value.isEmpty){
-                    return "Please fill up this field";
-                  }
+
                   return null;
                 },
               ),
@@ -306,15 +302,10 @@ class _AddProductPageState extends State<AddProductPage> {
                                 label: const Text("Open Galary"),
                                 icon: const Icon(Icons.photo_album)),
                         ],
-
                       )
-
                   ],
                 ),
               ),
-
-
-
 
 
             ],
@@ -422,16 +413,18 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   void _resetField(){
-    _nameController.clear();
-    _shortDisController.clear();
-    _longDisController.clear();
-    _discountController.clear();
-    _quantityController.clear();
-    _salepriceController.clear();
-    _purchaseController.clear();
-    categoryModel=null;
-    purchaseDate=null;
-    thumbnail=null;
+    setState(() {
+      _nameController.clear();
+      _shortDisController.clear();
+      _longDisController.clear();
+      _discountController.clear();
+      _quantityController.clear();
+      _salepriceController.clear();
+      _purchaseController.clear();
+      categoryModel=null;
+      purchaseDate=null;
+      thumbnail=null;
+    });
 
   }
 

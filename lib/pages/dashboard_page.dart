@@ -13,6 +13,9 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ProductProvider>(context,listen: false).getAllCategory();
+    Provider.of<ProductProvider>(context,listen: false).getAllProducts();
+    Provider.of<ProductProvider>(context,listen: false).getAllPurchase();
+
     return Scaffold(
       appBar: AppBar(
         title:const Text("Dashboard"),
