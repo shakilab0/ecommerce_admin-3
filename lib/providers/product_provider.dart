@@ -57,11 +57,9 @@ class ProductProvider extends ChangeNotifier{
   }
 
   List<PurchaseModel> getPurchasesByProductId(String productId){
-
     return purchaseList.where((element) => element.productId==productId).toList();
-
-
   }
+
 
   List<CategoryModel>getCategoriesForFiltering(){
     return <CategoryModel>[CategoryModel(categoryName: "All"),
@@ -82,6 +80,10 @@ class ProductProvider extends ChangeNotifier{
     );
   }
 
+  Future<void>updateProductField(String productId,String field,dynamic value){
+    return DbHelper.updateProductField(productId, {field: value});
+  }
+
  Future<void>addNewproduct(ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel,purchaseModel);
  }
@@ -89,6 +91,11 @@ class ProductProvider extends ChangeNotifier{
   Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
     return DbHelper.repurchase(purchaseModel,productModel);
 
+  }
+
+  double priceAfterDiscount(num price, num discount) {
+    final discountAmount=(price*discount)/100;
+    return price-discountAmount;
   }
 
 }

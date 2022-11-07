@@ -32,8 +32,6 @@ class DbHelper{
     final catDoc=_db.collection(collectionCategory).doc(productModel.category.categoryId);
     wb.update(catDoc, {categoryFieldProductCount:updatedCount});
     return wb.commit();
-
-
   }
 
 
@@ -56,6 +54,10 @@ class DbHelper{
           .where("$productFieldCategory.$categoryFieldName",isEqualTo: categoryName)
           .snapshots();
 
+
+  static Future<void>updateProductField(String productId,Map<String,dynamic>map){
+     return _db.collection(collectionProduct).doc(productId).update(map);
+  }
 
   static Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) async{
     final wb=_db.batch();
