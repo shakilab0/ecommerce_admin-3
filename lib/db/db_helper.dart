@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom_admin_3/models/category_model.dart';
+import 'package:ecom_admin_3/models/order_constant_model.dart';
 import 'package:ecom_admin_3/models/product_model.dart';
 import 'package:ecom_admin_3/models/purchase_model.dart';
 
@@ -34,6 +35,8 @@ class DbHelper{
     return wb.commit();
   }
 
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>getOrderConstants()=>
+      _db.collection(collectionUtils).doc(documentOrderConstants).snapshots();
 
   static Stream<QuerySnapshot<Map<String,dynamic>>>getAllCategory()=>
       _db.collection(collectionCategory).snapshots();
@@ -72,8 +75,10 @@ class DbHelper{
     wb.update(catDoc, {categoryFieldProductCount:(purchaseModel.purchaseQuantity+previousCount)});
     return wb.commit();
 
+  }
 
-
+  static Future<void>updateOrderConstants(OrderConstantModel model){
+    return _db.collection(collectionUtils).doc(documentOrderConstants).update(model.toMap());
   }
 
 }

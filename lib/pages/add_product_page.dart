@@ -362,7 +362,7 @@ class _AddProductPageState extends State<AddProductPage> {
           productDiscount: num.parse(_discountController.text),
           stock: num.parse(_quantityController.text),
           category: categoryModel!,
-          additionalImageModels:[] ,
+          additionalImageModels:['','',''] ,
           thumbnailImageModel: imageModel,
         );
         final purchaseModel=PurchaseModel(
@@ -390,26 +390,6 @@ class _AddProductPageState extends State<AddProductPage> {
         throw error;
       }
 
-      // final productModel = ProductModel(
-      //   productName:_nameController.text,
-      //   shortDescription:_shortDisController.text.isEmpty?null:_shortDisController.text,
-      //   longDescription:_longDisController.text.isEmpty?null:_shortDisController.text,
-      //   salePrice:num.parse(_salepriceController.text),
-      //   productDiscount: num.parse(_discountController.text),
-      //   stock: num.parse(_quantityController.text),
-      //   category: categoryModel!,
-      //   thumbnailImageModel: '',
-      // );
-      // final purchaseModel=PurchaseModel(
-      //   purchasePrice:num.parse(_purchaseController.text),
-      //   purchaseQuantity:num.parse(_quantityController.text),
-      //   dateModel:DateModel(
-      //     timestamp: Timestamp.fromDate(DateTime.now()),
-      //     day: DateTime.now().day,
-      //     month: DateTime.now().month,
-      //     year: DateTime.now().year,
-      //   ),
-      // );
     }
   }
 

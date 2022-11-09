@@ -10,48 +10,49 @@ import 'package:ecom_admin_3/pages/report_page.dart';
 import 'package:ecom_admin_3/pages/settings_page.dart';
 import 'package:ecom_admin_3/pages/userlist_page.dart';
 import 'package:ecom_admin_3/pages/view_product_page.dart';
+import 'package:ecom_admin_3/providers/order_provider.dart';
 import 'package:ecom_admin_3/providers/product_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context)=>ProductProvider()),
-    ],
-     child: const MyApp())
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => ProductProvider()),
+    ChangeNotifierProvider(create: (context) => OrderProvider()),
+  ], child: const MyApp()));
 }
-  class MyApp extends StatelessWidget {
-    const MyApp({Key? key}) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-      return MaterialApp(
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
 
-        builder: EasyLoading.init(),
-        initialRoute: LauncherPage.routeName,
-        routes: {
 
-          AddProductPage.routeName:(context)=>const AddProductPage(),
-          CategoryPage.routeName:(context)=>const CategoryPage(),
-          DashboardPage.routeName:(context)=>const DashboardPage(),
-          LauncherPage.routeName:(context)=>const LauncherPage(),
-          LoginPage.routeName:(context)=>const LoginPage(),
-          OrderlistPage.routeName:(context)=>const OrderlistPage(),
-          ProductDetailsPage.routeName:(context)=> ProductDetailsPage(),
-          ProductRepurchasePage.routeName:(context)=>const ProductRepurchasePage(),
-          ReportPage.routeName:(context)=>const ReportPage(),
-          SettingsPage.routeName:(context)=>const SettingsPage(),
-          UserlistPage.routeName:(context)=>const UserlistPage(),
-          ViewProductPage.routeName:(context)=>const ViewProductPage(),
 
-        },
-      );
-    }
+
+      builder: EasyLoading.init(),
+      initialRoute: LauncherPage.routeName,
+      routes: {
+        AddProductPage.routeName: (context) => const AddProductPage(),
+        CategoryPage.routeName: (context) => const CategoryPage(),
+        DashboardPage.routeName: (context) => const DashboardPage(),
+        LauncherPage.routeName: (context) => const LauncherPage(),
+        LoginPage.routeName: (context) => const LoginPage(),
+        OrderlistPage.routeName: (context) => const OrderlistPage(),
+        ProductDetailsPage.routeName: (context) => ProductDetailsPage(),
+        ProductRepurchasePage.routeName: (context) =>
+            const ProductRepurchasePage(),
+        ReportPage.routeName: (context) => const ReportPage(),
+        SettingsPage.routeName: (context) => const SettingsPage(),
+        UserlistPage.routeName: (context) => const UserlistPage(),
+        ViewProductPage.routeName: (context) => const ViewProductPage(),
+      },
+    );
   }
+}
