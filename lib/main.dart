@@ -3,6 +3,7 @@ import 'package:ecom_admin_3/pages/category_page.dart';
 import 'package:ecom_admin_3/pages/dashboard_page.dart';
 import 'package:ecom_admin_3/pages/launcher_page.dart';
 import 'package:ecom_admin_3/pages/login_page.dart';
+import 'package:ecom_admin_3/pages/order_details_Page.dart';
 import 'package:ecom_admin_3/pages/orderlist_page.dart';
 import 'package:ecom_admin_3/pages/product_details_page.dart';
 import 'package:ecom_admin_3/pages/product_repurchase_page.dart';
@@ -12,6 +13,7 @@ import 'package:ecom_admin_3/pages/userlist_page.dart';
 import 'package:ecom_admin_3/pages/view_product_page.dart';
 import 'package:ecom_admin_3/providers/order_provider.dart';
 import 'package:ecom_admin_3/providers/product_provider.dart';
+import 'package:ecom_admin_3/providers/user_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -23,6 +25,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ProductProvider()),
     ChangeNotifierProvider(create: (context) => OrderProvider()),
+    ChangeNotifierProvider(create: (context) => UserProvider()),
   ], child: const MyApp()));
 }
 
@@ -45,9 +48,9 @@ class MyApp extends StatelessWidget {
         LauncherPage.routeName: (context) => const LauncherPage(),
         LoginPage.routeName: (context) => const LoginPage(),
         OrderlistPage.routeName: (context) => const OrderlistPage(),
-        ProductDetailsPage.routeName: (context) => ProductDetailsPage(),
-        ProductRepurchasePage.routeName: (context) =>
-            const ProductRepurchasePage(),
+        ProductDetailsPage.routeName: (context) => const ProductDetailsPage(),
+        OrderDetailsPage.routeName: (context) => const OrderDetailsPage(),
+        ProductRepurchasePage.routeName: (context) => const ProductRepurchasePage(),
         ReportPage.routeName: (context) => const ReportPage(),
         SettingsPage.routeName: (context) => const SettingsPage(),
         UserlistPage.routeName: (context) => const UserlistPage(),

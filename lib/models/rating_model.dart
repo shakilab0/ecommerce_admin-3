@@ -1,19 +1,21 @@
+import 'package:ecom_admin_3/models/user_model.dart';
+
 const String collectionRating='Rating';
 
 const String ratingFieldId='ratingId';
-const String ratingFieldUserId='userId';
+const String ratingFieldUserModel='userModel';
 const String ratingFieldProductId='productId';
-const String ratingFieldRating='ratingId';
+const String ratingFieldRating='rating';
 
 class RatingModel{
   String ratingId;
-  String userId;
+  UserModel userModel;
   String productId;
   num rating;
 
   RatingModel({
     required this.ratingId,
-    required this.userId,
+    required this.userModel,
     required this.productId,
     required this.rating
   });
@@ -23,7 +25,7 @@ class RatingModel{
   Map<String,dynamic>toMap(){
     return <String,dynamic>{
       ratingFieldId:ratingId,
-      ratingFieldUserId:userId,
+      ratingFieldUserModel:userModel.toMap(),
       ratingFieldProductId:productId,
       ratingFieldRating:rating,
     };
@@ -31,7 +33,7 @@ class RatingModel{
 
   factory RatingModel.fromMap(Map<String,dynamic>map)=>RatingModel(
     ratingId: map[ratingFieldId],
-    userId: map[ratingFieldUserId],
+    userModel:UserModel.fromMap (map[ratingFieldUserModel]),
     productId: map[ratingFieldProductId],
     rating: map[ratingFieldRating],
   );

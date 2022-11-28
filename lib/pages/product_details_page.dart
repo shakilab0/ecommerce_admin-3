@@ -208,12 +208,41 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
       actions: [
-        TextButton(
-            onPressed: (){
 
+        // error asa akto
+        TextButton(
+            onPressed: () async{
+              Navigator.pop(context);
+              final selectedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+              EasyLoading.show(status: 'please Wait');
+
+              if(selectedFile!=null) {
+                final imageModel = await productProvider.upLoadImage(
+                    selectedFile.path);
+                productModel.additionalImageModels[i] =
+                    imageModel.imageDownloadUrl;
+
+
+                print('object');
+                await productProvider.updateProductField(
+                    productModel.productId!,
+                    productFieldImages,
+                    productModel.additionalImageModels
+                );
+                await productProvider.deleteImage(url);
+                EasyLoading.dismiss();
+                if(mounted)showMsg(context, " Updated");
+
+              }
+              else{
+                EasyLoading.dismiss();
+                showMsg(context, "Failed to Update");
+              return;
+              }
             },
             child:const Text("Change")
         ),
+
         TextButton(
             onPressed: () async{
               Navigator.pop(context);

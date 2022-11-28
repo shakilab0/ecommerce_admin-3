@@ -8,7 +8,7 @@ class ReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Report"),
+        title: const Text("Report"),
       ),
     );
   }

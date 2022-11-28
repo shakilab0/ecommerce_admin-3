@@ -80,6 +80,7 @@ class ProductProvider extends ChangeNotifier{
     );
   }
   Future <void>deleteImage(String url){
+    print('NAM $url');
     return FirebaseStorage.instance.refFromURL(url).delete();
   }
 

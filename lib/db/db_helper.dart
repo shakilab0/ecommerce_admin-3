@@ -4,9 +4,17 @@ import 'package:ecom_admin_3/models/order_constant_model.dart';
 import 'package:ecom_admin_3/models/product_model.dart';
 import 'package:ecom_admin_3/models/purchase_model.dart';
 
+import '../models/order_model.dart';
+import '../models/user_model.dart';
+
 class DbHelper{
   static const String collectionAdmin='Admins';
   static final _db=FirebaseFirestore.instance;
+
+  static Future<bool> doesUserExist(String uid) async {
+    final snapshot = await _db.collection(collectionUser).doc(uid).get();
+    return snapshot.exists;
+  }
 
   static Future<bool>isAdmin(String uid)async{
     final snapshort=await _db.collection(collectionAdmin).doc(uid).get();
@@ -41,8 +49,15 @@ class DbHelper{
   static Stream<QuerySnapshot<Map<String,dynamic>>>getAllCategory()=>
       _db.collection(collectionCategory).snapshots();
 
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllUsers()=>
+      _db.collection(collectionUser).snapshots();
+
+
   static Stream<QuerySnapshot<Map<String,dynamic>>>getAllProducts()=>
       _db.collection(collectionProduct).snapshots();
+
+  static Stream<QuerySnapshot<Map<String,dynamic>>>getAllOrders()=>
+      _db.collection(collectionOrder).snapshots();
 
   static Stream<QuerySnapshot<Map<String,dynamic>>>getAllPurchase()=>
       _db.collection(collectionPurchase).snapshots();
@@ -80,5 +95,16 @@ class DbHelper{
   static Future<void>updateOrderConstants(OrderConstantModel model){
     return _db.collection(collectionUtils).doc(documentOrderConstants).update(model.toMap());
   }
+
+  static Future<void> updateOrderStatus(String orderId, String status) {
+    return _db
+        .collection(collectionOrder)
+        .doc(orderId)
+        .update({orderFieldOrderStatus: status});
+  }
+
+
+
+
 
 }
