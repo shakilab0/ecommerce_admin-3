@@ -3,6 +3,7 @@ import 'package:ecom_admin_3/pages/category_page.dart';
 import 'package:ecom_admin_3/pages/dashboard_page.dart';
 import 'package:ecom_admin_3/pages/launcher_page.dart';
 import 'package:ecom_admin_3/pages/login_page.dart';
+import 'package:ecom_admin_3/pages/notification_page.dart';
 import 'package:ecom_admin_3/pages/order_details_Page.dart';
 import 'package:ecom_admin_3/pages/orderlist_page.dart';
 import 'package:ecom_admin_3/pages/product_details_page.dart';
@@ -11,6 +12,7 @@ import 'package:ecom_admin_3/pages/report_page.dart';
 import 'package:ecom_admin_3/pages/settings_page.dart';
 import 'package:ecom_admin_3/pages/userlist_page.dart';
 import 'package:ecom_admin_3/pages/view_product_page.dart';
+import 'package:ecom_admin_3/providers/notification_provider.dart';
 import 'package:ecom_admin_3/providers/order_provider.dart';
 import 'package:ecom_admin_3/providers/product_provider.dart';
 import 'package:ecom_admin_3/providers/user_provider.dart';
@@ -26,6 +28,7 @@ void main() async {
     ChangeNotifierProvider(create: (context) => ProductProvider()),
     ChangeNotifierProvider(create: (context) => OrderProvider()),
     ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => NotificationProvider()),
   ], child: const MyApp()));
 }
 
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
         SettingsPage.routeName: (context) => const SettingsPage(),
         UserlistPage.routeName: (context) => const UserlistPage(),
         ViewProductPage.routeName: (context) => const ViewProductPage(),
+        NotificationPage.routeName: (context) => const NotificationPage(),
       },
     );
   }

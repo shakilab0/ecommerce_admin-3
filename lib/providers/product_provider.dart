@@ -8,6 +8,7 @@ import 'package:ecom_admin_3/models/purchase_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
+import '../models/comment_model.dart';
 import '../utils/constants.dart';
 
 class ProductProvider extends ChangeNotifier{
@@ -29,6 +30,10 @@ class ProductProvider extends ChangeNotifier{
       categoryList.sort((model1,model2)=>model1.categoryName.compareTo(model2.categoryName));
       notifyListeners();
     });
+  }
+
+  ProductModel getProductByIdFromCache(String id){
+    return productList.firstWhere((element) => element.productId==id);
   }
 
   getAllProducts(){
@@ -100,6 +105,17 @@ class ProductProvider extends ChangeNotifier{
   double priceAfterDiscount(num price, num discount) {
     final discountAmount=(price*discount)/100;
     return price-discountAmount;
+  }
+
+  Future<List<CommentModel>>getCommentsByProduct(String s)async {
+    final snapshot=await DbHelper.getCommentsByProduct(s);
+    final commentList=List.generate(snapshot.docs.length,
+            (index) => CommentModel.fromMap(snapshot.docs[index].data()));
+    return commentList;
+  }
+
+  Future<void>approveComment(String productId, CommentModel commentModel) {
+    return DbHelper.approveComment(productId,commentModel);
   }
 
 }

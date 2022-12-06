@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../models/comment_model.dart';
 import '../models/image_model.dart';
 import '../utils/constants.dart';
 
@@ -26,9 +27,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late Size size;
   @override
   void didChangeDependencies() {
+    // as String?;
+
     size=MediaQuery.of(context).size;
     productProvider=Provider.of<ProductProvider>(context,listen: false);
-    productModel=ModalRoute.of(context)!.settings.arguments as ProductModel;
+    final object=ModalRoute.of(context)!.settings.arguments;
+    if(object is String){
+      productModel=productProvider.getProductByIdFromCache(object);
+    }else{
+      productModel=object as ProductModel;
+    }
+
     super.didChangeDependencies();
   }
 
@@ -94,9 +103,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ],
             ) ,
           ),
-
-
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -144,6 +150,62 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
             title: const Text("Featured"),
           ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('All Comments'),
+          ),
+          FutureBuilder<List<CommentModel>>(
+              future: productProvider.getCommentsByProduct(productModel.productId!),
+              builder: (context,snapshot){
+                if(snapshot.hasData){
+                  final commentList=snapshot.data!;
+                  if(commentList.isEmpty){
+                    return const Center(child: Text("No Comment found"),);
+                  }else{
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: commentList.map((comment) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            title: Text(comment.userModel.displayName ?? comment.userModel.email),
+                            subtitle: Text(comment.date),
+                            leading: comment.userModel.imageUrl == null
+                                ? const Icon(Icons.person)
+                                : CachedNetworkImage(
+                              width: 70,
+                              height: 100,
+                              fit: BoxFit.fill,
+                              imageUrl: comment.userModel.imageUrl!,
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              comment.comment,
+                            ),
+                          ),
+                          OutlinedButton(
+                              onPressed:comment.approved ? null :(){
+                                _approveComment(comment);
+                              } ,
+                              child: const Text('Approve this comment'),
+                          ),
+                        ],
+                      )).toList(),
+                    );
+                  }
+                }
+                if(snapshot.hasError){
+                  return const Text("Failed to load Comment");
+                }
+                return const Center(child: Text("Loading comments"));
+              }
+          )
+
         ],
       ),
     );
@@ -269,6 +331,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ),
       ],
     ));
+  }
+
+  void _approveComment(CommentModel commentModel) async {
+    EasyLoading.show(status: "Please wait");
+    await productProvider.approveComment(productModel.productId!,commentModel);
+    EasyLoading.dismiss();
+    showMsg(context, 'comment approved');
+    setState(() {
+
+    });
+
   }
 
 

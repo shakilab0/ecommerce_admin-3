@@ -35,4 +35,32 @@ class OrderProvider extends ChangeNotifier {
     return DbHelper.updateOrderStatus(orderId, status);
   }
 
+  num getOrderByDate(num day, num month, num year) {
+    //final dt = DateTime.now().subtract(Duration(days: 7));
+    num total = 0;
+    for(final order in orderList) {
+      if(order.orderDate.day == day &&
+          order.orderDate.month == month &&
+          order.orderDate.year == year) {
+        total += 1;
+      }
+    }
+    return total;
+  }
+
+
+  num getTotalItemsSoldByDate(num day, num month, num year) {
+    num total = 0;
+    for(final order in orderList) {
+      if(order.orderDate.day == day &&
+          order.orderDate.month == month &&
+          order.orderDate.year == year) {
+        for(final model in order.productDetails) {
+          total += model.quantity;
+        }
+      }
+    }
+    return total;
+  }
+
 }
